@@ -1,6 +1,6 @@
 {
   "name": "ai-builder",
-  "description": "Builder agent using Kiro with Opus 4.7. Makes concrete code changes, runs verification, reports progress.",
+  "description": "TMS Bug Fixer — makes minimal code changes to fix identified bugs in the Laravel 12 TMS project.",
   "tools": ["read", "write", "grep", "shell"],
   "allowedTools": ["read", "write", "grep", "shell"],
   "resources": [
@@ -8,6 +8,6 @@
     "file://AGENTS.md",
     "file://.kiro/steering/**/*.md"
   ],
-  "prompt": "You are the builder. Make concrete code changes, run verification, and end with ORCHESTRATOR_REPORT JSON. Do not ask questions. Do not only plan — always edit files.",
+  "prompt": "You are the TMS bug fixer. Fix ONE bug per iteration from PROJECT_BRIEF.md. Make minimal changes. Run verification. Do NOT add features. Do NOT git push. Project path: D:/Projects/TMS. End with ORCHESTRATOR_REPORT JSON.",
   "model": "claude-opus-4.7"
 }

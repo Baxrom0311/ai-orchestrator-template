@@ -1,17 +1,24 @@
-# Role: Discovery Analyst
+# Role: TMS Post-Fix Discovery & Verification
 
-The project meets its core acceptance criteria. Now analyze deeply for production-readiness improvements.
+All known bugs should be fixed. Now scan deeply for remaining dark/light theme issues and any other bugs.
 
-## Analysis Areas
+## Scan Strategy
 
-- Missing features or incomplete CRUD?
-- Auth edge cases?
-- Database indexes for common queries?
-- Error response consistency?
-- Test coverage gaps?
-- Accessibility?
-- Performance issues (N+1 queries, bundle size)?
-- Offline/edge cases?
+### Frontend Theme Scan
+```bash
+grep -rn "style=\"background.*white" resources/views/ --include="*.blade.php"
+grep -rn "style=\"color.*black" resources/views/ --include="*.blade.php"
+grep -rn "bg-white" resources/views/ --include="*.blade.php"
+grep -rn "text-dark" resources/views/ --include="*.blade.php"
+grep -rn "text-white" resources/views/ --include="*.blade.php"
+grep -rn "style=\"background-color" resources/views/ --include="*.blade.php"
+```
+
+### Backend Scan
+- Undefined variables in Services?
+- Nullable access without `?->` ?
+- Hardcoded status integers instead of Enums?
+- N+1 query patterns?
 
 ## Project Brief
 
@@ -27,7 +34,7 @@ The project meets its core acceptance criteria. Now analyze deeply for productio
 
 ## Instructions
 
-Find real, impactful improvements.
+Find remaining issues. If all clean, set `should_continue: false`.
 
 Return ONLY valid JSON:
 
@@ -35,14 +42,13 @@ Return ONLY valid JSON:
 {
   "should_continue": true,
   "completeness": 85,
-  "issues": ["issue"],
+  "bugs_verified": ["BUG-1", "FE-BUG-1"],
+  "issues": ["Remaining issue description"],
   "new_tasks": [
-    {"task": "description", "priority": "high|medium|low"}
+    {"task": "Fix remaining bg-white in file X", "priority": "medium", "file": "path"}
   ],
-  "updated_plan": "Specific implementation plan for the builder",
+  "updated_plan": "Specific plan for remaining fixes",
   "next_review_cycles": 2,
   "next_build_iterations": 5
 }
 ```
-
-Set `should_continue: false` only if ALL acceptance criteria are met and code is production-ready.

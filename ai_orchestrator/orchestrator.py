@@ -418,9 +418,11 @@ def run_command(
             capture_output=True,
             timeout=timeout_sec,
             env=env,
+            encoding="utf-8",
+            errors="replace",
         )
         return CommandResult(
-            name, cmd, proc.returncode, proc.stdout, proc.stderr,
+            name, cmd, proc.returncode, proc.stdout or "", proc.stderr or "",
             time.monotonic() - start,
         )
     except subprocess.TimeoutExpired as exc:
@@ -435,6 +437,8 @@ def run_command(
 
 
 def run_shell(name: str, command: str, cwd: Path, timeout_sec: int = 120) -> CommandResult:
+    if sys.platform == "win32":
+        return run_command(name, ["cmd", "/c", command], cwd=cwd, timeout_sec=timeout_sec)
     return run_command(name, ["bash", "-lc", command], cwd=cwd, timeout_sec=timeout_sec)
 
 
@@ -457,12 +461,12 @@ def write_result(path: Path, result: CommandResult) -> None:
         "",
         "## STDOUT",
         "```text",
-        result.stdout,
+        result.stdout or "",
         "```",
         "",
         "## STDERR",
         "```text",
-        result.stderr,
+        result.stderr or "",
         "```",
     ])
     write_text(path, body)

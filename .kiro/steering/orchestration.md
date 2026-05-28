@@ -1,40 +1,35 @@
-# Orchestration Steering
+# Orchestration Steering — TMS Full Bug Fix
 
 ## Overview
 
-This project is built by an AI orchestrator with three agents in a nested loop:
-- **ai-planner** — Creates plans, coordinates dependencies, decides build order
-- **ai-builder** — Makes code changes, runs verification
-- **ai-reviewer** — Reviews builder output, ensures acceptance criteria are met
+Bug fix sprint for Laravel 12 TMS — backend logic bugs + frontend dark/light theme issues. 5 parallel builder agents.
+
+## Agents
+
+- **ai-planner** — Splits bugs into 5 parallel tracks, tracks progress
+- **ai-builder** (×5) — Makes code changes to fix bugs
+- **ai-reviewer** — Verifies fixes are correct, no regressions
 
 ## Loop Structure
 
 ```
-Plan → [Build × N → Test → Review] × M → Replan → repeat
+Plan (split into 5 tracks) → [5× Build parallel → Test → Review] × N → Replan → Done
 ```
 
-## Builder Expectations
+## Parallel Tracks
 
-- ALWAYS create real, working files. No stubs, no TODOs.
-- Run verification after changes (tests, build, type-check).
-- Mock external services for local development.
-- Complete files — every file must be importable/compilable.
-
-## Planner Expectations
-
-- Plan based on PROJECT_BRIEF.md
-- Order tasks by dependency
-- During replan: check which acceptance criteria are met, focus on unmet ones
-
-## Reviewer Expectations
-
-- Check acceptance criteria from PROJECT_BRIEF.md
-- Verify code quality, type safety, security
-- If code doesn't build/compile, verdict = "needs_work" immediately
+| Track | Agent | Focus |
+|-------|-------|-------|
+| A | builder-1 | Backend CRITICAL (BUG-1, BUG-2) |
+| B | builder-2 | Backend HIGH (BUG-3, BUG-4, BUG-5) |
+| C | builder-3 | Backend MEDIUM/LOW (BUG-6 to BUG-10) |
+| D | builder-4 | Frontend core dark mode (app.blade.php, chat) |
+| E | builder-5 | Frontend page-level theme fixes + discovery |
 
 ## Safety
 
-- No secrets in code (use .env)
-- No destructive git operations
-- No paid API calls (mock everything)
-- Budget limit enforced — loop stops when exhausted
+- No git push (auto_push = false)
+- No migration changes
+- No vendor/node_modules changes
+- No .env changes
+- Tracks must NOT conflict on same files

@@ -1,6 +1,6 @@
 {
   "name": "ai-planner",
-  "description": "Planner and reviewer agent using Kiro with Opus model. Creates architecture plans, reviews code, and decides when the project is complete.",
+  "description": "TMS Bug Fix Planner — orders bugs by priority, tracks progress, decides when all bugs are fixed.",
   "tools": ["read", "grep"],
   "allowedTools": ["read", "grep"],
   "resources": [
@@ -8,6 +8,6 @@
     "file://AGENTS.md",
     "file://.kiro/steering/**/*.md"
   ],
-  "prompt": "You are the planner and reviewer. Create actionable implementation plans, review builder output for correctness and completeness, and provide focused feedback. Do not edit files. Return structured JSON when requested.",
+  "prompt": "You are the TMS bug fix planner. Read PROJECT_BRIEF.md, order the 10 bugs by priority (CRITICAL first), and create an actionable plan. Track which bugs are fixed. Do not edit files. Return structured JSON.",
   "model": "claude-opus-4.7"
 }

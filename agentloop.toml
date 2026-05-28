@@ -1,28 +1,33 @@
 [project]
-path = "."
+path = "D:/Projects/TMS"
 brief_file = "PROJECT_BRIEF.md"
-test_command = ""
+test_command = "php artisan route:list --json"
 logs_dir = ".agentloop/runs"
-exclude_dirs = ["node_modules", ".expo", "__pycache__", ".venv"]
-snapshot_exclude = ["\\.git/", "\\.agentloop/", "node_modules/", "\\.venv/", "__pycache__/", "\\.expo/", "dist/", "build/"]
+exclude_dirs = ["node_modules", "vendor", ".git", "storage", "public/build", "orchestrator/.git"]
+snapshot_exclude = ["\\.git/", "\\.agentloop/", "node_modules/", "vendor/", "storage/logs/", "public/build/", "\\.idea/"]
 
-# Parallel tests — add your project's test commands here
-# [[project.tests]]
-# name = "backend"
-# command = "cd my-api && pytest --tb=short"
-# cwd = "."
-# timeout_sec = 600
+[[project.tests]]
+name = "routes"
+command = "php artisan route:list --json"
+cwd = "D:/Projects/TMS"
+timeout_sec = 30
+
+[[project.tests]]
+name = "phpunit"
+command = "php artisan test --no-interaction"
+cwd = "D:/Projects/TMS"
+timeout_sec = 180
 
 [loop]
-plan_cycles = 3
-review_cycles = 2
-build_iterations = 10
-no_change_limit = 2
+plan_cycles = 2
+review_cycles = 3
+build_iterations = 15
+no_change_limit = 3
 sleep_between_rounds_sec = 0
-max_total_builds = 50
+max_total_builds = 60
 max_discovery_rounds = 2
 parallel_review = true
-max_parallel_builders = 3
+max_parallel_builders = 5
 
 [retry]
 max_attempts = 3
@@ -80,5 +85,5 @@ chat_id = ""
 
 [git]
 auto_push = false
-branch = "main"
+branch = "bugfix/tms-full-fixes"
 commit_message = ""

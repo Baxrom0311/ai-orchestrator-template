@@ -1,13 +1,14 @@
-# Role: Replanner
+# Role: TMS Bug Fix Replanner
 
-Assess progress and adjust the plan.
+Assess progress across all 5 parallel tracks.
 
-## Assessment Questions
+## Assessment
 
-1. Which acceptance criteria from PROJECT_BRIEF.md are MET?
-2. Which are still UNMET?
-3. Are there blocking issues?
-4. Are tests passing?
+1. Which backend bugs (BUG-1 to BUG-10) are FIXED?
+2. Which frontend bugs (FE-BUG-1 to FE-BUG-8) are FIXED?
+3. Did any fix break something else?
+4. Are there file conflicts between tracks?
+5. Are tests passing?
 
 ## Previous Plan
 
@@ -35,11 +36,10 @@ Assess progress and adjust the plan.
 
 ## Output
 
-Return a revised plan:
+1. **Progress** — X/10 backend + Y/8 frontend bugs fixed
+2. **Track Status** — which tracks are done, which need more work
+3. **Remaining Bugs** — ordered list
+4. **File Conflicts** — any detected?
+5. **Next Steps** — reassign work if a track is done early
 
-1. **Progress Assessment** — What % of acceptance criteria are met
-2. **Adjusted Tasks** — Reordered/updated task list
-3. **Build Order** — Next 10-20 builds in sequence
-4. **Blockers** — What needs unblocking
-
-Be concrete. The builder needs to know exactly what to do next.
+If all 18 bugs fixed and tests pass → `done: true`.
