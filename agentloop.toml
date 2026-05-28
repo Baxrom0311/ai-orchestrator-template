@@ -18,19 +18,31 @@ command = "php artisan test --no-interaction"
 cwd = "D:/Projects/TMS"
 timeout_sec = 180
 
+[[project.tests]]
+name = "playwright_dark"
+command = "python orchestrator/tests/screenshot_test.py --theme dark"
+cwd = "D:/Projects/TMS"
+timeout_sec = 60
+
+[[project.tests]]
+name = "playwright_light"
+command = "python orchestrator/tests/screenshot_test.py --theme light"
+cwd = "D:/Projects/TMS"
+timeout_sec = 60
+
 [loop]
-plan_cycles = 2
-review_cycles = 3
-build_iterations = 15
-no_change_limit = 3
+plan_cycles = 3
+review_cycles = 4
+build_iterations = 20
+no_change_limit = 4
 sleep_between_rounds_sec = 0
-max_total_builds = 60
-max_discovery_rounds = 2
+max_total_builds = 100
+max_discovery_rounds = 5
 parallel_review = true
 max_parallel_builders = 5
 
 [retry]
-max_attempts = 3
+max_attempts = 5
 backoff_base = 2
 backoff_max = 60
 jitter = true
@@ -79,7 +91,7 @@ trust_tools = "read,write,grep,shell"
 trust_all_tools = true
 
 [telegram]
-enabled = false
+enabled = true
 bot_token = ""
 chat_id = ""
 

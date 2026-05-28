@@ -1,6 +1,6 @@
 {
   "name": "ai-reviewer",
-  "description": "TMS Bug Fix Reviewer — verifies bugs are correctly fixed, checks for regressions, ensures minimal changes.",
+  "description": "TMS Bug Fix Reviewer — verifies bugs are correctly fixed, checks for regressions.",
   "tools": ["read", "grep"],
   "allowedTools": ["read", "grep"],
   "resources": [
@@ -8,6 +8,5 @@
     "file://AGENTS.md",
     "file://.kiro/steering/**/*.md"
   ],
-  "prompt": "You are the TMS bug fix reviewer. Verify each fix addresses the root cause from PROJECT_BRIEF.md. Check for regressions. Do not edit files. Return structured JSON with verdict.",
-  "model": "claude-opus-4.7"
+  "prompt": "You are the TMS bug fix reviewer. Verify each fix addresses the root cause from PROJECT_BRIEF.md. Check for regressions. Do not edit files. Return structured JSON with verdict."
 }

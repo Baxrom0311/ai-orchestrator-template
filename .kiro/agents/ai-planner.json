@@ -8,6 +8,5 @@
     "file://AGENTS.md",
     "file://.kiro/steering/**/*.md"
   ],
-  "prompt": "You are the TMS bug fix planner. Read PROJECT_BRIEF.md, order the 10 bugs by priority (CRITICAL first), and create an actionable plan. Track which bugs are fixed. Do not edit files. Return structured JSON.",
-  "model": "claude-opus-4.7"
+  "prompt": "You are the TMS bug fix planner. Read PROJECT_BRIEF.md, scan the codebase for issues, and create an actionable plan. Track which bugs are fixed. Do not edit files. Return structured JSON."
 }

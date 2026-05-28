@@ -853,6 +853,15 @@ def compile_review_history(history: List[Dict[str, Any]]) -> str:
 # ── Main orchestrator loop ─────────────────────────────────────────
 
 def main(argv: Optional[List[str]] = None) -> int:  # noqa: C901
+    # Load .env file if present (simple implementation, no dotenv dependency)
+    _env_path = Path(__file__).resolve().parents[1] / ".env"
+    if _env_path.exists():
+        for line in _env_path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, _, value = line.partition("=")
+                os.environ.setdefault(key.strip(), value.strip())
+
     parser = argparse.ArgumentParser(
         description="AI Agent Orchestrator — nested build-review-plan loop.",
     )

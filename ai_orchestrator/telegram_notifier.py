@@ -14,8 +14,9 @@ class TelegramNotifier:
 
     def __init__(self, bot_token: str = "", chat_id: str = "", enabled: bool = False):
         self.bot_token = bot_token
-        self.chat_id = str(chat_id)
-        self.enabled = enabled and bool(bot_token) and bool(chat_id)
+        # Support multiple chat IDs separated by comma
+        self.chat_ids = [cid.strip() for cid in str(chat_id).split(",") if cid.strip()]
+        self.enabled = enabled and bool(bot_token) and len(self.chat_ids) > 0
 
     def send(self, text: str, parse_mode: str = "Markdown") -> bool:
         if not self.enabled:
@@ -23,19 +24,23 @@ class TelegramNotifier:
         # Clean ANSI codes
         clean = _strip_ansi(text)
         url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
-        payload = json.dumps({
-            "chat_id": self.chat_id,
-            "text": clean[:4096],
-            "parse_mode": parse_mode,
-        }).encode()
-        req = urllib.request.Request(
-            url, data=payload, headers={"Content-Type": "application/json"},
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                return resp.status == 200
-        except Exception:
-            return False
+        success = False
+        for chat_id in self.chat_ids:
+            payload = json.dumps({
+                "chat_id": chat_id,
+                "text": clean[:4096],
+                "parse_mode": parse_mode,
+            }).encode()
+            req = urllib.request.Request(
+                url, data=payload, headers={"Content-Type": "application/json"},
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    if resp.status == 200:
+                        success = True
+            except Exception:
+                pass
+        return success
 
     # ── Notification helpers ───────────────────────────────
 
